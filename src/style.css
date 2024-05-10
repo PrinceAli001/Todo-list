@@ -4,3 +4,46 @@
     font-family: sans-serif;
     box-sizing: border-box;
 }
+@font-face{
+    font-family: Dancing-Script;
+    src: url(../Fonts/DancingScript.ttf);
+}
+@font-face {
+    font-family: Caveat;
+    src: url(../Fonts/Caveat.ttf);
+}
+svg{
+    width: 30px;
+    height: 30px;
+}
+header h1{
+    text-align: center;
+    font-size: 2.8rem;
+    margin: 20px;
+    font-family: Dancing-Script;
+}
+#content{
+    height: 88.1vh;
+    padding: 20px;
+}
+#content > div{
+    border: 1px solid ;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    border-radius: 10px;
+    padding: 5px;
+    flex-direction: column;
+    background-image: url(../Images/todo.webp);
+    background-size: contain;
+}
+#content > div p{
+    font-size: 1.7rem;
+    text-align: center;
+    margin-top: auto;
+}
+#content > div > div{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
