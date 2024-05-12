@@ -1,4 +1,7 @@
 import './style.css';
+import content from './content';
+
+content()
 
 function todoListMaker(title,description,dueDate,priority) {
     let itemTitle = title

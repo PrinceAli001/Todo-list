@@ -29,7 +29,7 @@ module.exports = {
                 type: 'asset/resource'
             },
             {
-                test: /\.(jpeg|jpg|webp|png|gif)$/i,
+                test: /\.(jpeg|jpg|webp|svg|png|gif)$/i,
                 type: 'asset/resource'
             }
         ]
