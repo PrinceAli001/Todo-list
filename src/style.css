@@ -12,13 +12,18 @@
     font-family: Caveat;
     src: url(../Fonts/Caveat.ttf);
 }
+body{
+    background-image: url(../Images/bg.jpeg);
+    background-size: cover;
+    background-position: center;
+}
 img{
     width: 20px;
     height: 20px;
 }
 header h1{
     text-align: center;
-    font-size: 2.8rem;
+    font-size: 3.5rem;
     margin: 20px;
     font-family: Dancing-Script;
 }
@@ -26,19 +31,22 @@ header h1{
     height: 88.1vh;
     padding: 20px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
 }
 #content > div{
     border: 1px solid ;
-    width: 150px;
-    height: 150px;
+    width: 300px;
+    height: 300px;
     display: flex;
     border-radius: 10px;
-    padding: 5px 5px 2px 5px;
+    padding: 5px 5px 1px 5px;
     flex-direction: column;
-    background-image: url(../Images/todo.webp);
-    background-size: contain;
+    background-image: url(../Images/list.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 #content > div p{
     font-size: 1.5rem;
@@ -59,4 +67,42 @@ header h1{
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+}
+input,textarea{
+    border-radius: 12px;
+    padding-left: 12px;
+    font-size: 1.3rem;
+    border: 1px solid #c0c0c0;
+    outline: #c0c0c0;
+}
+input{
+    margin-bottom: 20px;
+    height: 37px;
+    width: 250px;
+}
+input:focus{
+    border: 2px solid #000000;
+    outline: #000000;
+}
+textarea:focus{
+    border: 2px solid #000000;
+    outline: #000000;
+}
+dialog{
+    margin: auto;
+    height: 300px;
+    width: 285px;
+    padding: 10px;
+    outline: none;
+    border-left: none;
+    border-right: none;
+    border-top: 10px solid #00008b;
+    border-bottom: 10px solid #00008b;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+label{
+    font-size: 1.8rem;
 }
