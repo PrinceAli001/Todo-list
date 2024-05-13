@@ -3,7 +3,13 @@ import content from './content';
 import title from './title';
 
 content()
-title()
+display()
+
+function display() {
+    let p = document.querySelector('p')
+    p.addEventListener('click', title)
+}
+
 
 function todoListMaker(title,description,dueDate,priority) {
     let itemTitle = title
