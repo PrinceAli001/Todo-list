@@ -9,6 +9,7 @@ export default function content() {
     let addProject = document.createElement('div');
 
     title.textContent = 'Title';
+    title.classList.add('title')
     addProject.textContent = '+';
     addProject.classList.add('new-project')
     svgOne.src = '../Images/pencil.svg';

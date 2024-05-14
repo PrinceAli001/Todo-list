@@ -21,7 +21,10 @@ export default function title() {
     inputTwo.setAttribute('rows','5')
     inputTwo.setAttribute('cols','19')
     svgOne.src = '../Images/pencil.svg';
+    svgOne.classList.add('edit');
+    svgOne.style.cssText = 'display: none; pointer-events: none;'
     svgTwo.src = '../Images/close-thick.svg';
+    svgTwo.classList.add('close');
     svgDiv.classList.add('close-and-edit')
     btn.textContent = 'Save';
 

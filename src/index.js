@@ -1,13 +1,14 @@
 import './style.css';
 import content from './content';
-import title from './title';
+import defaultTitle from './title';
+import closing from './close';
 
 content()
 display()
 
 function display() {
-    let p = document.querySelector('p')
-    p.addEventListener('click', title)
+    let title = document.querySelector('.title');
+    title.addEventListener('click', defaultTitle);
 }
 
 
