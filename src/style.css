@@ -16,10 +16,12 @@ body{
     background-image: url(../Images/bg.jpeg);
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 img{
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 }
 header h1{
     text-align: center;
@@ -40,33 +42,60 @@ header h1{
     width: 300px;
     height: 300px;
     display: flex;
+    padding: 2px;
     border-radius: 10px;
-    padding: 5px 5px 1px 5px;
     flex-direction: column;
-    background-image: url(../Images/list.png);
+    background-image: url(../Images/todobg.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
-#content > div p{
+#svg-div,.sidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 36%;
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 85px;
+    padding: 2px 2px 5px 2px;
+    width: fit-content;
+    margin-right: auto;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.close-and-edit{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.close-and-edit img{
+    width: 22px;
+    height: 22px;
+}
+#content > div > div + div{
     font-size: 1.5rem;
     text-align: center;
     margin-top: auto;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    border-top-left-radius: 35px;
+    border-top-right-radius: 35px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-left: 0;
 }
-#content > div > div,.close-and-edit{
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-}
-#content .new-project{
-    border: 1px solid ;
+#content #new-project{
+    border: 1px solid #000000;
     width: 80px;
     height: 80px;
-    background: none;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    background: none;
 }
 input,textarea{
     border-radius: 12px;
@@ -78,7 +107,7 @@ input,textarea{
 input{
     margin-bottom: 20px;
     height: 37px;
-    width: 250px;
+    width: 260px;
 }
 input:focus{
     border: 2px solid #000000;
@@ -90,9 +119,9 @@ textarea:focus{
 }
 dialog{
     margin: auto;
-    height: 356px;
+    height: 357px;
     width: 285px;
-    padding: 10px 10px 2px 10px;
+    padding: 10px 11px 2px 11px;
     outline: none;
     border-left: none;
     border-right: none;
