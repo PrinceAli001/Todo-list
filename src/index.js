@@ -155,8 +155,12 @@ function display() {
         let projectFieldset = document.createElement('fieldset');
         let legend = document.createElement('legend');
         let projectFieldsetText = document.createElement('p');
+        let containerTaskDiv = document.createElement('div');
+        let taskDivCheck = document.createElement('input')
         let taskDiv = document.createElement('div');
+        let tasknameAndPriority = document.createElement('div');
         let taskName = document.createElement('span');
+        let taskPriority = document.createElement('span');
         let newTask = document.createElement('div');
         let notesFieldset = document.createElement('fieldset');
         let notesLegend = document.createElement('legend');
@@ -170,37 +174,52 @@ function display() {
         backText.textContent = 'Back';
         backDiv.classList.add('back-div');
         backDiv.classList.add('todo-bg');
-        projectFieldset.style.cssText = 'width: 150px;';
+        backDiv.style = 'background-color: #ffffff;'
+        projectFieldset.style.cssText = 'width: 150px; text-align: center; border-radius: 20px;';
         legend.textContent = 'Current Todo';
+        legend.style.cssText = 'font-family: Caveat; font-size: 1.5rem;';
         projectFieldsetText.textContent = 'Title';
+        projectFieldsetText.style = 'color: #ffffff;'
         projectFieldsetText.classList.add('para')
+        containerTaskDiv.style.cssText = 'display: flex; align-items: center; margin: 0 0 0 5%;';
+        taskDivCheck.setAttribute('type','checkbox');
+        taskDivCheck.style.cssText = 'margin-bottom: 0; width: 20px; font-size: 1rem;';
         taskDiv.classList.add('task-div');
         taskName.textContent = 'TaskName';
-        taskName.style.cssText = 'flex: 2;'
+        taskPriority.textContent = 'Taskprior';
+        tasknameAndPriority.style.cssText = 'flex: 2; display: flex; flex-wrap: wrap; gap: 40%;'
         imgOne.src = '../Images/pencil.svg';
         imgThree.src = '../Images/arrow-expand.svg';
         imgFour.src = '../Images/delete.svg';
         newTask.classList.add('new-project');
         newTask.classList.add('todo-bg');
         newTask.textContent = '+ New Task'
-        newTask.style.cssText = 'margin: auto auto 0 auto; font-size: 1.5rem;';
+        newTask.style.cssText = 'margin: auto auto 0 auto; font-size: .9rem; height: 50px;';
+        notesFieldset.style = 'width: 50%;';
         notesLegend.textContent = 'Notes';
+        notesLegend.style.cssText = 'font-family: Caveat; font-size: 2.4rem;';
         notesTextarea.setAttribute('placeholder',`Make a note if you don't want to forget`);
         notesTextarea.setAttribute('cols','19');
+        notesTextarea.setAttribute('rows','5');
+        notesTextarea.style = 'width: 100%; min-width: 270px;';
 
         backDiv.appendChild(backImg);
         backDiv.appendChild(backText);
         projectFieldset.appendChild(legend);
         projectFieldset.appendChild(projectFieldsetText);
-        taskDiv.appendChild(taskName);
+        tasknameAndPriority.appendChild(taskName);
+        tasknameAndPriority.appendChild(taskPriority);
+        taskDiv.appendChild(tasknameAndPriority);
         taskDiv.appendChild(imgOne);
         taskDiv.appendChild(imgThree);
         taskDiv.appendChild(imgFour);
+        containerTaskDiv.appendChild(taskDivCheck);
+        containerTaskDiv.appendChild(taskDiv)
         notesFieldset.appendChild(notesLegend);
         notesFieldset.appendChild(notesTextarea);
         content.appendChild(backDiv);
         content.appendChild(projectFieldset);
-        content.appendChild(taskDiv);
+        content.appendChild(containerTaskDiv);
         content.appendChild(newTask);
         content.appendChild(notesFieldset);
     }

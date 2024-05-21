@@ -30,7 +30,7 @@ header h1{
     font-family: Dancing-Script;
 }
 #content{
-    height: 88.1vh;
+    height: 100vh;
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
@@ -110,18 +110,19 @@ header h1{
     width: fit-content;
     height: fit-content;
     margin: 0 auto 0 auto;
-    background-image: linear-gradient(180deg,rgba(255,255,255,0.4),#0000ff,#0000ff,rgba(255,255,255,0.4));
+    background-image: linear-gradient(180deg,rgba(255,255,255,0.4),#0000ff,#0000ff);
 }
 #content .task-div{
     background-color: #ffffff;
     display: flex;
     align-items: center;
+    flex: 2;
     height: 90px;
     padding: 0 10px 0 10px;
     gap: 10px;
     border-radius: 10px;
     border-left: 10px solid #22c55e;
-    margin: 0 3% 0 5%;
+    margin-left: 15px;
 }
 #content .task-div > img{
     width: 25px;
