@@ -28,6 +28,18 @@ function display() {
     let title = document.createElement('div');
     let paraOne = document.createElement('p');
     let paraTwo = document.createElement('p');
+    let backDiv = document.createElement('div');
+    let backImg = document.createElement('img')
+    let backText = document.createElement('span');
+    let projectFieldset = document.createElement('fieldset');
+    let projectLegend = document.createElement('legend');
+    let projectFieldsetText = document.createElement('p');
+    let newTask = document.createElement('div');
+    let notesFieldset = document.createElement('fieldset');
+    let notesLegend = document.createElement('legend');
+    let notesTextarea = document.createElement('textarea');
+    let todoProjects = [];
+    todoProjects.push(defaultProject);
     let todo = todolist(titleInput,descriptionInput);
 
 
@@ -57,7 +69,8 @@ function display() {
     });
     imgOne.addEventListener('click', editProject);
     imgTwo.addEventListener('click', closed);
-    btn.addEventListener('click', showTodoListDetails)
+    btn.addEventListener('click', showTodoListDetails);
+    backDiv.addEventListener('click', back);
   
 
 
@@ -149,24 +162,6 @@ function display() {
     }
 
     function expand() {
-        let backDiv = document.createElement('div');
-        let backImg = document.createElement('img')
-        let backText = document.createElement('span');
-        let projectFieldset = document.createElement('fieldset');
-        let legend = document.createElement('legend');
-        let projectFieldsetText = document.createElement('p');
-        let containerTaskDiv = document.createElement('div');
-        let taskDivCheck = document.createElement('input')
-        let taskDiv = document.createElement('div');
-        let tasknameAndPriority = document.createElement('div');
-        let taskName = document.createElement('span');
-        let taskPriority = document.createElement('span');
-        let newTask = document.createElement('div');
-        let notesFieldset = document.createElement('fieldset');
-        let notesLegend = document.createElement('legend');
-        let notesTextarea = document.createElement('textarea');
-    
-        
         headerHOne.textContent = 'Things to do';
         content.textContent = '';
         content.style.cssText = 'flex-direction: column; flex-wrap: no-wrap; justify-content: normal; padding-top: 5px;';
@@ -176,25 +171,15 @@ function display() {
         backDiv.classList.add('todo-bg');
         backDiv.style = 'background-color: #ffffff;'
         projectFieldset.style.cssText = 'width: 150px; text-align: center; border-radius: 20px;';
-        legend.textContent = 'Current Todo';
-        legend.style.cssText = 'font-family: Caveat; font-size: 1.5rem;';
+        projectLegend.textContent = 'Current Todo';
+        projectLegend.style.cssText = 'font-family: Caveat; font-size: 1.5rem;';
         projectFieldsetText.textContent = 'Title';
         projectFieldsetText.style = 'color: #ffffff;'
-        projectFieldsetText.classList.add('para')
-        containerTaskDiv.style.cssText = 'display: flex; align-items: center; margin: 0 0 0 5%;';
-        taskDivCheck.setAttribute('type','checkbox');
-        taskDivCheck.style.cssText = 'margin-bottom: 0; width: 20px; font-size: 1rem;';
-        taskDiv.classList.add('task-div');
-        taskName.textContent = 'TaskName';
-        taskPriority.textContent = 'Taskprior';
-        tasknameAndPriority.style.cssText = 'flex: 2; display: flex; flex-wrap: wrap; gap: 40%;'
-        imgOne.src = '../Images/pencil.svg';
-        imgThree.src = '../Images/arrow-expand.svg';
-        imgFour.src = '../Images/delete.svg';
+        projectFieldsetText.classList.add('para');
         newTask.classList.add('new-project');
         newTask.classList.add('todo-bg');
         newTask.textContent = '+ New Task'
-        newTask.style.cssText = 'margin: auto auto 0 auto; font-size: .9rem; height: 50px;';
+        newTask.style.cssText = 'margin: 20px auto 0 auto; font-size: .9rem; height: 50px;';
         notesFieldset.style = 'width: 50%;';
         notesLegend.textContent = 'Notes';
         notesLegend.style.cssText = 'font-family: Caveat; font-size: 2.4rem;';
@@ -205,8 +190,38 @@ function display() {
 
         backDiv.appendChild(backImg);
         backDiv.appendChild(backText);
-        projectFieldset.appendChild(legend);
+        projectFieldset.appendChild(projectLegend);
         projectFieldset.appendChild(projectFieldsetText);
+        notesFieldset.appendChild(notesLegend);
+        notesFieldset.appendChild(notesTextarea);
+        content.appendChild(backDiv);
+        content.appendChild(projectFieldset);
+        content.appendChild(newTask);
+        content.appendChild(notesFieldset);
+    }
+    
+    function createNewTask() {
+        let containerTaskDiv = document.createElement('div');
+        let taskDivCheck = document.createElement('input')
+        let taskDiv = document.createElement('div');
+        let tasknameAndPriority = document.createElement('div');
+        let taskName = document.createElement('span');
+        let taskPriority = document.createElement('span');
+        let imgOne = document.createElement('img');
+        let imgThree = document.createElement('img');
+        let imgFour = document.createElement('img');
+
+        containerTaskDiv.style.cssText = 'display: flex; align-items: center; margin: 0;';
+        taskDivCheck.setAttribute('type','checkbox');
+        taskDivCheck.style.cssText = 'margin-bottom: 0; width: 20px; font-size: 1rem;';
+        taskDiv.classList.add('task-div');
+        taskName.textContent = 'TaskName';
+        taskPriority.textContent = 'Due-date';
+        tasknameAndPriority.style.cssText = 'flex: 2; display: flex; flex-wrap: wrap; gap: 40%; height: 40px; align-items: center;'
+        imgOne.src = '../Images/pencil.svg';
+        imgThree.src = '../Images/arrow-expand.svg';
+        imgFour.src = '../Images/delete.svg';
+
         tasknameAndPriority.appendChild(taskName);
         tasknameAndPriority.appendChild(taskPriority);
         taskDiv.appendChild(tasknameAndPriority);
@@ -214,13 +229,16 @@ function display() {
         taskDiv.appendChild(imgThree);
         taskDiv.appendChild(imgFour);
         containerTaskDiv.appendChild(taskDivCheck);
-        containerTaskDiv.appendChild(taskDiv)
-        notesFieldset.appendChild(notesLegend);
-        notesFieldset.appendChild(notesTextarea);
-        content.appendChild(backDiv);
-        content.appendChild(projectFieldset);
+        containerTaskDiv.appendChild(taskDiv);
+        content.removeChild(newTask);
+        content.removeChild(notesFieldset);
         content.appendChild(containerTaskDiv);
         content.appendChild(newTask);
         content.appendChild(notesFieldset);
+    }
+
+    function back() {
+        content.textContent = '';
+        content.appendChild(todoProjects);
     }
 }
