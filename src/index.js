@@ -18,7 +18,6 @@ function display() {
     let imgOne = document.createElement('img');
     let imgTwo = document.createElement('img');
     let imgThree = document.createElement('img');
-    let imgFour = document.createElement('img');
     let titleLabel = document.createElement('label');
     let titleInput = document.createElement('input');
     let descriptionLabel = document.createElement('label');
@@ -38,9 +37,19 @@ function display() {
     let notesFieldset = document.createElement('fieldset');
     let notesLegend = document.createElement('legend');
     let notesTextarea = document.createElement('textarea');
+    let duedateLabel = document.createElement('label');
+    let duedateInput = document.createElement('input');
+    let priority = document.createElement('p');
+    let prioritySelect = document.createElement('select');
+    let urgentOption = document.createElement('option');
+    let importantOption = document.createElement('option');
+    let trivialOption = document.createElement('option');
     let todoProjects = [];
-    todoProjects.push(defaultProject);
     let todo = todolist(titleInput,descriptionInput);
+
+
+    todoProjects.push(defaultProject);
+    todoProjects.push(newProject);
 
 
 
@@ -67,14 +76,14 @@ function display() {
         dialog.textContent = '';
         getTodoProjectDetails();
     });
+    defaultImgTwo.addEventListener('click', expand);
     imgOne.addEventListener('click', editProject);
     imgTwo.addEventListener('click', closed);
     btn.addEventListener('click', showTodoListDetails);
     backDiv.addEventListener('click', back);
-  
+    newTask.addEventListener('click', createNewTask);
 
 
-    expand()
 
     function projectMaker() {
         getTodoProjectDetails()
@@ -93,7 +102,7 @@ function display() {
         content.removeChild(newProject);
         content.appendChild(container);
         content.appendChild(newProject);
-    }
+    };
 
 
     function getTodoProjectDetails() {
@@ -106,12 +115,16 @@ function display() {
             titleLabel.textContent = 'Title';
             titleLabel.style.cssText = 'font-family: Caveat; font-size: 3rem;';
             titleInput.setAttribute('placeholder','Title..');
+            titleInput.setAttribute('type','text');
+            titleInput.setAttribute('required','');
             descriptionLabel.textContent = 'Description';
             descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 3rem;';
             descriptionInput.setAttribute('rows','5');
             descriptionInput.setAttribute('cols','19');
-            descriptionInput.setAttribute('placeholder','Anything you want to say.....')
+            descriptionInput.setAttribute('placeholder','Anything you want to say.....');
+            descriptionInput.setAttribute('required','');
             btn.textContent = 'Done';
+            btn.setAttribute('type','submit');
 
             imgDiv.appendChild(imgOne);
             imgDiv.appendChild(imgTwo);
@@ -143,11 +156,11 @@ function display() {
         dialog.appendChild(descriptionLabel);
         dialog.appendChild(paraTwo);
         dialog.showModal();
-    }
+    };
 
     function closed() {
         dialog.close();
-    }
+    };
 
     function editProject() {
         imgOne.style = 'display: none; pointer-events: none;'
@@ -159,7 +172,7 @@ function display() {
         dialog.appendChild(descriptionLabel);
         dialog.appendChild(descriptionInput);
         dialog.appendChild(btn);
-    }
+    };
 
     function expand() {
         headerHOne.textContent = 'Things to do';
@@ -173,7 +186,7 @@ function display() {
         projectFieldset.style.cssText = 'width: 150px; text-align: center; border-radius: 20px;';
         projectLegend.textContent = 'Current Todo';
         projectLegend.style.cssText = 'font-family: Caveat; font-size: 1.5rem;';
-        projectFieldsetText.textContent = 'Title';
+        projectFieldsetText.textContent = `${todo.projectTitle.value}`;
         projectFieldsetText.style = 'color: #ffffff;'
         projectFieldsetText.classList.add('para');
         newTask.classList.add('new-project');
@@ -198,7 +211,7 @@ function display() {
         content.appendChild(projectFieldset);
         content.appendChild(newTask);
         content.appendChild(notesFieldset);
-    }
+    };
     
     function createNewTask() {
         let containerTaskDiv = document.createElement('div');
@@ -222,6 +235,8 @@ function display() {
         imgThree.src = '../Images/arrow-expand.svg';
         imgFour.src = '../Images/delete.svg';
 
+        getTaskDetails()
+
         tasknameAndPriority.appendChild(taskName);
         tasknameAndPriority.appendChild(taskPriority);
         taskDiv.appendChild(tasknameAndPriority);
@@ -235,10 +250,62 @@ function display() {
         content.appendChild(containerTaskDiv);
         content.appendChild(newTask);
         content.appendChild(notesFieldset);
-    }
+    };
+
+    function getTaskDetails() {
+        imgOne.src = '../Images/pencil.svg';
+        imgOne.style = 'display: none; pointer-events: none;'
+        imgTwo.src = '../Images/close-thick.svg';
+        imgDiv.classList.add('close-and-edit');
+        titleLabel.textContent = 'TaskName';
+        titleLabel.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
+        titleInput.setAttribute('placeholder','Title..');
+        titleInput.setAttribute('type','text');
+        titleInput.setAttribute('required','');
+        descriptionLabel.textContent = 'Description';
+        descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
+        descriptionInput.setAttribute('rows','5');
+        descriptionInput.setAttribute('cols','19');
+        descriptionInput.setAttribute('placeholder','Anything you want to say.....');
+        descriptionInput.setAttribute('required','');
+        duedateLabel.textContent = 'Due-date';
+        duedateLabel.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
+        duedateInput.setAttribute('type','date');
+        priority.textContent = 'Priority';
+        priority.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
+        urgentOption.textContent = 'Urgent';
+        importantOption.textContent = 'Important';
+        trivialOption.textContent = 'Trivial';
+        trivialOption.setAttribute('checked','');
+        btn.textContent = 'Done';
+        btn.setAttribute('type','submit');
+
+        imgDiv.appendChild(imgOne);
+        imgDiv.appendChild(imgTwo);
+        prioritySelect.appendChild(urgentOption);
+        prioritySelect.appendChild(importantOption);
+        prioritySelect.appendChild(trivialOption); 
+        dialog.textContent = '';
+        dialog.appendChild(imgDiv);
+        dialog.appendChild(titleLabel);
+        dialog.appendChild(titleInput);
+        dialog.appendChild(descriptionLabel);
+        dialog.appendChild(descriptionInput);
+        dialog.appendChild(duedateLabel);
+        dialog.appendChild(duedateInput);
+        dialog.appendChild(priority);
+        dialog.appendChild(prioritySelect);
+        dialog.appendChild(btn);
+        content.appendChild(dialog);
+        dialog.showModal();
+    };
 
     function back() {
         content.textContent = '';
-        content.appendChild(todoProjects);
-    }
-}
+        content.style.cssText = 'flex-direction: row; flex-wrap: wrap; justify-content: center;';
+        headerHOne.textContent = 'Todolist';
+        for (const todoProjectsItem of todoProjects) {
+            content.appendChild(todoProjectsItem);
+        };
+    };
+};

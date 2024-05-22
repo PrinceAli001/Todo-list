@@ -96,6 +96,9 @@ header h1{
     font-size: 2rem;
     background: none;
 }
+#content #new-project{
+    width: 80px;
+}
 #content .back-div{
     background: none;
     flex-direction: row;
@@ -126,6 +129,11 @@ header h1{
 #content .task-div > img{
     width: 25px;
     height: 25px;
+}
+select{
+    width: 60%;
+    height: 37px;
+    font-size: 1.3rem;
 }
 input,textarea{
     border-radius: 12px;
