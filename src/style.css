@@ -134,6 +134,7 @@ select{
     width: 60%;
     height: 37px;
     font-size: 1.3rem;
+    margin-bottom: 5px;
 }
 input,textarea{
     border-radius: 12px;
@@ -175,12 +176,12 @@ label{
 }
 button{
     display: block;
-    padding: 10px 15px;
-    background-color: #0000ff;
-    color: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #0000ff;
+    background-color: #ffffff;
+    color: #0000ff;
     margin: 5px auto;
-    border: 1px solid #ffffff;
-    border-radius: 25px;
+    border-radius: 15px;
     font-size: 1.2rem;
 }
 .para{
