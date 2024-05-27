@@ -51,6 +51,7 @@ function display() {
     let urgentOption = document.createElement('option');
     let importantOption = document.createElement('option');
     let trivialOption = document.createElement('option');
+    let taskMainContainer = document.createElement('div');
     let currentDataNumber = '';
 
     let todoProjects = [];
@@ -209,6 +210,7 @@ function display() {
         projectFieldsetText.textContent = `${todo.projectTitle.value}`;
         projectFieldsetText.style = 'color: #ffffff;'
         projectFieldsetText.classList.add('para');
+        taskMainContainer.classList.add('main-container');
         newTask.classList.add('new-project');
         newTask.classList.add('todo-bg');
         newTask.textContent = '+ New Task'
@@ -229,6 +231,7 @@ function display() {
         notesFieldset.appendChild(notesTextarea);
         content.appendChild(backDiv);
         content.appendChild(projectFieldset);
+        content.appendChild(taskMainContainer);
         content.appendChild(newTask);
         content.appendChild(notesFieldset);
     };
@@ -270,6 +273,7 @@ function display() {
         }
 
         function showCurrentTaskDetails() {
+            containerTaskDiv.dataset.number = todoProjectItems.indexOf(todolistItem);
             paraOne.textContent = `${todoProjectItems[containerTaskDiv.dataset.number].taskInput}`;
             paraOne.classList.add('para');
             paraTwo.textContent = `${todoProjectItems[containerTaskDiv.dataset.number].projectdescription}`;
@@ -315,7 +319,9 @@ function display() {
         }
 
         function editCurrentTask() {
-            console.log(currentDataNumber)
+            containerTaskDiv.dataset.number = todoProjectItems.indexOf(todolistItem);
+            taskName.setAttribute('data-number',`${todoProjectItems.indexOf(todolistItem)}`);
+            taskduedate.setAttribute('data-number',`${todoProjectItems.indexOf(todolistItem)}`);
             todoProjectItems[currentDataNumber].taskInput = `${todo.taskInput.value}`;
             todoProjectItems[currentDataNumber].taskDuedate = `${todo.taskDuedate.value}`;
             todoProjectItems[currentDataNumber].projectdescription = `${todo.projectdescription.value}`;
@@ -339,9 +345,11 @@ function display() {
         }
 
         function trash() {
-            content.removeChild(containerTaskDiv)
-            todoProjectItems.splice(currentDataNumber,1);
+            containerTaskDiv.dataset.number = todoProjectItems.indexOf(todolistItem);
+            taskMainContainer.removeChild(containerTaskDiv);
+            todoProjectItems.splice(containerTaskDiv.dataset.number,1);
         }
+
 
         tasknameAndDuedate.appendChild(taskName);
         tasknameAndDuedate.appendChild(taskduedate);
@@ -351,11 +359,7 @@ function display() {
         taskDiv.appendChild(imgFour);
         containerTaskDiv.appendChild(taskDivCheck);
         containerTaskDiv.appendChild(taskDiv);
-        content.removeChild(newTask);
-        content.removeChild(notesFieldset);
-        content.appendChild(containerTaskDiv);
-        content.appendChild(newTask);
-        content.appendChild(notesFieldset);
+        taskMainContainer.appendChild(containerTaskDiv);
 
         containerTaskDiv.addEventListener('click', () => {
             currentDataNumber = containerTaskDiv.dataset.number;

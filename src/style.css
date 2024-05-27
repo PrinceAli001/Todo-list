@@ -73,7 +73,7 @@ header h1{
     width: 22px;
     height: 22px;
 }
-#content > div > div + div{
+#content > div .title{
     font-size: 1.5rem;
     text-align: center;
     margin-top: auto;
@@ -187,4 +187,11 @@ button{
 .para{
     font-size: 1.7rem;
     margin: 10px 0 10px 0;
+}
+.main-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1365px;
+    margin: 0 5% 50px 5%;
 }
