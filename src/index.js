@@ -27,8 +27,7 @@ function display() {
     let btn = document.createElement('button');
     let btnTwo = document.createElement('button');
     let btnThree = document.createElement('button');
-    let container = document.createElement('div');
-    let title = document.createElement('div');
+    let btnFour = document.createElement('button');
     let paraOne = document.createElement('p');
     let paraTwo = document.createElement('p');
     let paraThree = document.createElement('p');
@@ -70,22 +69,16 @@ function display() {
             svgDiv.setAttribute('style','display: none;') 
         }, 5000);
     });
-    container.addEventListener('click', () => {
-        imgDiv.setAttribute('style','display: flex;');
-        setTimeout(() => {
-            imgDiv.setAttribute('style','display: none;') 
-        }, 5000);
-    });
     defaultTitle.addEventListener('click', () => {
         if (defaultTitle.textContent == 'Title') {
-            getTodoProjectDetails();
+            getDefaultTodoProjectDetails();
         }else{
-            showTodoListDetails();
+            showDefaultTodoListDetails();
         };
     });
     defaultImgOne.addEventListener('click', () => {
         dialog.textContent = '';
-        getTodoProjectDetails();
+        getDefaultTodoProjectDetails();
     });
     defaultImgTwo.addEventListener('click', expand);
     imgOne.addEventListener('click', editProject);
@@ -93,7 +86,7 @@ function display() {
     imgFive.addEventListener('click', editTask);
     btn.addEventListener('click', () => {
         closed();
-        showTodoListDetails();
+        showDefaultTodoListDetails();
     });
     backDiv.addEventListener('click', back);
     newTask.addEventListener('click', getTaskDetails);
@@ -102,29 +95,17 @@ function display() {
         createNewTask();
         showTaskDetails();
     });
+    btnFour.addEventListener('click', () => {
+        closed();
+        projectMaker();
+        showTodoListDetails();
+    })
+    newProject.addEventListener('click', getTodoProjectDetails);
 
 
-    function projectMaker() {
-        getTodoProjectDetails()
 
 
-        imgOne.src = '../Images/pencil.svg';
-        imgThree.src = '../Images/arrow-expand.svg';
-        title.textContent = 'Title';
-        imgDiv.classList.add('sidebar');
-        container.classList.add('todo-bg')
-
-        imgDiv.appendChild(imgOne);
-        imgDiv.appendChild(imgThree);
-        container.appendChild(imgDiv);
-        container.appendChild(title);
-        content.removeChild(newProject);
-        content.appendChild(container);
-        content.appendChild(newProject);
-    };
-
-
-    function getTodoProjectDetails() {
+    function getDefaultTodoProjectDetails() {
             let imgDiv = document.createElement('div');
 
             dialog.textContent = '';
@@ -158,14 +139,17 @@ function display() {
             dialog.showModal();
     };
 
-    function showTodoListDetails() {
+    function showDefaultTodoListDetails() {
+        let imgDiv = document.createElement('div');
+
         paraOne.textContent = `${todo.projectTitle.value}`;
         paraOne.classList.add('para');
         paraTwo.textContent = `${todo.projectdescription.value}`;
         paraTwo.classList.add('para');
-        defaultTitle.textContent = `${todo.projectTitle.value}`;
         imgOne.style = 'display: block; pointer-events: auto;';
-        imgDiv.classList.add('close-and-edit');
+        imgDiv.classList.remove('sidebar');
+        imgDiv.classList.toggle('close-and-edit');
+        defaultTitle.textContent = `${todo.projectTitle.value}`;
 
         dialog.textContent = '';
         imgDiv.appendChild(imgOne);
@@ -235,6 +219,99 @@ function display() {
         content.appendChild(newTask);
         content.appendChild(notesFieldset);
     };
+
+    function projectMaker() {
+        let imgDiv = document.createElement('div');
+        let container = document.createElement('div');
+        let title = document.createElement('div');
+        let project = todolist(titleInput.value,descriptionInput.value,taskInput.value,duedateInput.value,prioritySelect.value);
+
+        imgOne.src = '../Images/pencil.svg';
+        imgThree.src = '../Images/arrow-expand.svg';
+        title.textContent = `${todo.projectTitle.value}`;
+        title.classList.add('title');
+        imgDiv.classList.add('sidebar');
+        container.classList.add('todo-bg')
+        container.dataset.number = todoProjects.indexOf(todo)
+
+        imgDiv.appendChild(imgOne);
+        imgDiv.appendChild(imgThree);
+        container.appendChild(imgDiv);
+        container.appendChild(title);
+        content.removeChild(newProject);
+        content.appendChild(container);
+        content.appendChild(newProject);
+        todoProjects.pop(newProject);
+        todoProjects.push(project);
+        todoProjects.push(newProject);
+        console.log(todoProjects);
+
+
+
+        container.addEventListener('click', () => {
+            imgDiv.setAttribute('style','display: flex;');
+            setTimeout(() => {
+                imgDiv.setAttribute('style','display: none;') 
+            }, 5000);
+        });
+    };
+
+    function getTodoProjectDetails() {
+        let imgDiv = document.createElement('div');
+
+        dialog.textContent = '';
+        imgOne.src = '../Images/pencil.svg';
+        imgOne.style = 'display: none; pointer-events: none;'
+        imgTwo.src = '../Images/close-thick.svg';
+        imgDiv.classList.add('close-and-edit');
+        titleLabel.textContent = 'Title';
+        titleLabel.style.cssText = 'font-family: Caveat; font-size: 3rem;';
+        titleInput.setAttribute('placeholder','Title..');
+        titleInput.setAttribute('type','text');
+        titleInput.setAttribute('required','');
+        descriptionLabel.textContent = 'Description';
+        descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 3rem;';
+        descriptionInput.setAttribute('rows','5');
+        descriptionInput.setAttribute('cols','19');
+        descriptionInput.setAttribute('placeholder','Anything you want to say.....');
+        descriptionInput.setAttribute('required','');
+        btnFour.textContent = 'Done';
+        btnFour.setAttribute('type','submit');
+
+        imgDiv.appendChild(imgOne);
+        imgDiv.appendChild(imgTwo);
+        dialog.appendChild(imgDiv);
+        dialog.appendChild(titleLabel);
+        dialog.appendChild(titleInput);
+        dialog.appendChild(descriptionLabel);
+        dialog.appendChild(descriptionInput);
+        dialog.appendChild(btnFour);
+        content.appendChild(dialog);
+        dialog.showModal();
+    };
+
+    function showTodoListDetails() {
+        let imgDiv = document.createElement('div');
+
+        paraOne.textContent = `${todo.projectTitle.value}`;
+        paraOne.classList.add('para');
+        paraTwo.textContent = `${todo.projectdescription.value}`;
+        paraTwo.classList.add('para');
+        imgOne.style = 'display: block; pointer-events: auto;';
+        imgDiv.classList.add('close-and-edit');
+
+        dialog.textContent = '';
+        imgDiv.appendChild(imgOne);
+        imgDiv.appendChild(imgTwo);
+        dialog.appendChild(imgDiv);
+        dialog.appendChild(titleLabel);
+        dialog.appendChild(paraOne);
+        dialog.appendChild(descriptionLabel);
+        dialog.appendChild(paraTwo);
+        content.appendChild(dialog);
+        dialog.showModal();
+    };
+
     
     function createNewTask() {
         let containerTaskDiv = document.createElement('div');
@@ -344,6 +421,19 @@ function display() {
             closed();
         }
 
+        function complete() {
+            containerTaskDiv.dataset.number = todoProjectItems.indexOf(todolistItem);
+            taskDiv.style.cssText = 'border-left: none; color: #c0c0c0;';
+            imgFive.style = 'pointer-events: none;';
+            imgThree.style = 'pointer-events: none;';
+            imgFour.style = 'pointer-events: none;';
+            setTimeout(() => {
+                taskMainContainer.removeChild(containerTaskDiv);
+            }, 2000);
+            todoProjectItems.splice(containerTaskDiv.dataset.number,1);
+            console.log(todoProjectItems);
+        }
+
         function trash() {
             containerTaskDiv.dataset.number = todoProjectItems.indexOf(todolistItem);
             taskMainContainer.removeChild(containerTaskDiv);
@@ -363,7 +453,8 @@ function display() {
 
         containerTaskDiv.addEventListener('click', () => {
             currentDataNumber = containerTaskDiv.dataset.number;
-        })
+        });
+        taskDivCheck.addEventListener('click', complete);
         btnThree.addEventListener('click', editCurrentTask);
         imgThree.addEventListener('click', showCurrentTaskDetails);
         imgFour.addEventListener('click', trash);
