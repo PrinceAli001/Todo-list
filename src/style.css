@@ -64,6 +64,10 @@ header h1{
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
 }
+.sidebar{
+    margin-top: 31%;
+    height: 120px;
+}
 .close-and-edit{
     display: flex;
     justify-content: flex-end;
@@ -98,6 +102,7 @@ header h1{
 }
 #content #new-project{
     width: 80px;
+    align-self: center;
 }
 #content .back-div{
     background: none;
