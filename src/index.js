@@ -32,6 +32,7 @@ function display() {
     let paraTwo = document.createElement('p');
     let paraThree = document.createElement('p');
     let paraFour = document.createElement('p');
+    let paraFive = document.createElement('p');
     let backDiv = document.createElement('div');
     let backImg = document.createElement('img')
     let backText = document.createElement('span');
@@ -42,6 +43,7 @@ function display() {
     let notesFieldset = document.createElement('fieldset');
     let notesLegend = document.createElement('legend');
     let notesTextarea = document.createElement('textarea');
+    let saveBtn = document.createElement('button');
     let taskInput = document.createElement('input');
     let duedateLabel = document.createElement('label');
     let duedateInput = document.createElement('input');
@@ -52,14 +54,13 @@ function display() {
     let trivialOption = document.createElement('option');
     let taskMainContainer = document.createElement('div');
     let currentDataNumber = '';
+    let recreateTask = false;
 
     let todoProjects = [];
     let todoProjectItems = [];
-    let newTodoProjectItems = [];
     let todo = todolist(titleInput,descriptionInput,taskInput,duedateInput,prioritySelect);
     defaultProject.setAttribute('data-number','0');
     newProject.setAttribute('style','pointer-events: none;');
-
 
 
     defaultProject.addEventListener('click', () => {
@@ -83,11 +84,18 @@ function display() {
             getDefaultProject();
         };
     });
-    defaultImgTwo.addEventListener('click', expand);
+    defaultImgTwo.addEventListener('click', () => {
+        if (defaultTitle.textContent == 'Title') {
+            defaultImgTwo.setAttribute('style','pointer-events: none;');
+        }else {
+            expand();
+        };
+    });
     imgOne.addEventListener('click', getDefaultProject);
     imgTwo.addEventListener('click', closed);
     imgFive.addEventListener('click', editTask);
     btn.addEventListener('click', () => {
+        defaultImgTwo.setAttribute('style','pointer-events: auto;');
         closed();
         showDefaultTodoListDetails();
     });
@@ -97,6 +105,7 @@ function display() {
     });
     backDiv.addEventListener('click', back);
     newTask.addEventListener('click', getTaskDetails);
+    saveBtn.addEventListener('click', saveNotes);
     btnTwo.addEventListener('click', () => {
         closed()
         createNewTask(todo.taskInput.value,todo.taskDuedate.value,'True',todo.projectPriority.value);
@@ -104,10 +113,9 @@ function display() {
     });
     btnFour.addEventListener('click', () => {
         closed();
-        projectMaker();
+        projectMaker('True');
     });
     newProject.addEventListener('click', getTodoProjectDetails);
-
 
 
 
@@ -171,7 +179,9 @@ function display() {
             dialog.appendChild(paraTwo);
             content.appendChild(dialog);
             dialog.showModal();
-            console.log(currentDataNumber);
+
+        
+            projectStorage();
         }else {
             let imgDiv = document.createElement('div');
 
@@ -194,7 +204,9 @@ function display() {
             dialog.appendChild(paraTwo);
             content.appendChild(dialog);
             dialog.showModal();
-            console.log(currentDataNumber);
+
+        
+            projectStorage();
         };
     };
 
@@ -203,7 +215,9 @@ function display() {
         todoProjects[0].projectdescription = `${todo.projectdescription.value}`;
         if (defaultProject.dataset.number == currentDataNumber) {
             defaultTitle.textContent = `${todo.projectTitle.value}`;
-        }
+        };
+    
+        projectStorage();
         closed();
     }
 
@@ -255,173 +269,186 @@ function display() {
         notesTextarea.setAttribute('cols','19');
         notesTextarea.setAttribute('rows','5');
         notesTextarea.style = 'width: 100%; min-width: 270px;';
+        saveBtn.textContent = 'Save'
+        saveBtn.classList.add('save-btn');
+        if (taskMainContainer.hasChildNodes()) {
+            recreateTask = false;
+        }
+
+        if (localStorage.getItem('notes')) {
+            notesTextarea.textContent = JSON.parse(localStorage.getItem('notes'));
+        }
+        
+        if (recreateTask == true) {
+            for (let i = 0; i < todoProjectItems.length; i++) {
+                let containerTaskDiv = document.createElement('div');
+                let taskDivCheck = document.createElement('input')
+                let taskDiv = document.createElement('div');
+                let tasknameAndDuedate = document.createElement('div');
+                let taskName = document.createElement('span');
+                let taskduedate = document.createElement('span');
+                let imgThree = document.createElement('img');
+                let imgFour = document.createElement('img');
+                let imgFive = document.createElement('img');
+                let duplicateItem = todolist(todoProjectItems[i].projectTitle,todoProjectItems[i].projectdescription,todoProjectItems[i].taskInput,todoProjectItems[i].taskDuedate,todoProjectItems[i].projectPriority);
+        
+                todoProjectItems.splice(i,1,duplicateItem);
+                containerTaskDiv.style.cssText = 'display: flex; align-items: center; margin: 0;';
+                containerTaskDiv.setAttribute('data-number',`${todoProjectItems.indexOf(duplicateItem)}`);
+                containerTaskDiv.setAttribute('data-project',`${todoProjectItems[i].projectTitle}`);
+                taskDivCheck.setAttribute('type','checkbox');
+                taskDivCheck.style.cssText = 'margin-bottom: 0; width: 20px; font-size: 1rem;';
+                taskDiv.classList.add('task-div');
+                taskName.textContent = todoProjectItems[i].taskInput;
+                taskName.setAttribute('data-number',`${todoProjectItems.indexOf(duplicateItem)}`);
+                taskduedate.textContent =todoProjectItems[i].taskDuedate;
+                taskduedate.setAttribute('data-number',`${todoProjectItems.indexOf(duplicateItem)}`);
+                tasknameAndDuedate.style.cssText = 'flex: 2; display: flex; flex-wrap: wrap; gap: 40%; height: 40px; align-items: center;'
+                imgFive.src = '../Images/pencil.svg';
+                imgThree.src = '../Images/arrow-expand.svg';
+                imgFour.src = '../Images/delete.svg';
+        
+                if (todoProjectItems[i].projectPriority == 'Urgent') {
+                    taskDiv.style = ' border-left: 10px solid #dc2626;'
+                } else if (todoProjectItems[i].projectPriority == 'Important') {
+                    taskDiv.style = ' border-left: 10px solid #facc15;'
+                } else {
+                    taskDiv.style = 'border-left: 10px solid #22c55e;'
+                };
+        
+                function showCurrentTaskDetails() {
+                    containerTaskDiv.dataset.number = todoProjectItems.indexOf(duplicateItem);
+                    paraOne.textContent = `${todoProjectItems[containerTaskDiv.dataset.number].taskInput}`;
+                    paraOne.classList.add('para');
+                    paraTwo.textContent = `${todoProjectItems[containerTaskDiv.dataset.number].projectdescription}`;
+                    paraTwo.classList.add('para');
+                    paraThree.textContent = `${todoProjectItems[containerTaskDiv.dataset.number].taskDuedate}`;
+                    paraThree.classList.add('para');
+                    paraFour.textContent = `${todoProjectItems[containerTaskDiv.dataset.number].projectPriority}`;
+                    paraFour.classList.add('para');
+                    imgDiv.classList.add('close-and-edit');
+        
+                
+                    dialog.textContent = '';
+                    imgDiv.appendChild(imgTwo);
+                    dialog.appendChild(imgDiv);
+                    dialog.appendChild(titleLabel);
+                    dialog.appendChild(paraOne);
+                    dialog.appendChild(descriptionLabel);
+                    dialog.appendChild(paraTwo);
+                    dialog.appendChild(duedateLabel);
+                    dialog.appendChild(paraThree);
+                    dialog.appendChild(priority);
+                    dialog.appendChild(paraFour);
+                    content.appendChild(dialog);
+                    dialog.showModal();
+                }
+        
+                function getCurrentTask () {
+                    dialog.textContent = '';
+                    btnThree.textContent = 'Done';
+        
+                    imgDiv.appendChild(imgTwo);
+                    dialog.appendChild(imgDiv);
+                    dialog.appendChild(titleLabel);
+                    dialog.appendChild(taskInput);
+                    dialog.appendChild(descriptionLabel);
+                    dialog.appendChild(descriptionInput);
+                    dialog.appendChild(duedateLabel);
+                    dialog.appendChild(duedateInput);
+                    dialog.appendChild(priority);
+                    dialog.appendChild(prioritySelect);
+                    dialog.appendChild(btnThree);
+                    content.appendChild(dialog);
+                    dialog.showModal();
+                }
+        
+                function editCurrentTask() {
+                    containerTaskDiv.dataset.number = todoProjectItems.indexOf(duplicateItem);
+                    taskName.setAttribute('data-number',`${todoProjectItems.indexOf(duplicateItem)}`);
+                    taskduedate.setAttribute('data-number',`${todoProjectItems.indexOf(duplicateItem)}`);
+                    todoProjectItems[currentDataNumber].taskInput = `${todo.taskInput.value}`;
+                    todoProjectItems[currentDataNumber].taskDuedate = `${todo.taskDuedate.value}`;
+                    todoProjectItems[currentDataNumber].projectdescription = `${todo.projectdescription.value}`;
+                    todoProjectItems[currentDataNumber].projectPriority = `${todo.projectPriority.value}`;
+        
+                    if (taskName.dataset.number == currentDataNumber &&
+                        taskduedate.dataset.number == currentDataNumber) {
+                            taskName.textContent = `${todo.taskInput.value}`;
+                            taskduedate.textContent = `${todo.taskDuedate.value}`;
+                            
+                            if (todo.projectPriority.value == 'Urgent') {
+                                taskDiv.style = ' border-left: 10px solid #dc2626;'
+                            } else if (todo.projectPriority.value == 'Important') {
+                                taskDiv.style = ' border-left: 10px solid #facc15;'
+                            } else {
+                                taskDiv.style = 'border-left: 10px solid #22c55e;'
+                            }
+                    };
+                    closed();
+                    taskStorage();
+                }
+        
+                function complete() {
+                    containerTaskDiv.dataset.number = todoProjectItems.indexOf(duplicateItem);
+                    taskDiv.style.cssText = 'border-left: none; color: #c0c0c0;';
+                    imgFive.style = 'pointer-events: none;';
+                    imgThree.style = 'pointer-events: none;';
+                    imgFour.style = 'pointer-events: none;';
+                    setTimeout(() => {
+                        taskMainContainer.removeChild(containerTaskDiv);
+                    }, 2000);
+                    todoProjectItems.splice(containerTaskDiv.dataset.number,1);
+                    taskStorage();
+                }
+        
+                function trash() {
+                    containerTaskDiv.dataset.number = todoProjectItems.indexOf(duplicateItem);
+                    taskMainContainer.removeChild(containerTaskDiv);
+                    todoProjectItems.splice(containerTaskDiv.dataset.number,1);
+                    taskStorage();
+                }
+        
+        
+                tasknameAndDuedate.appendChild(taskName);
+                tasknameAndDuedate.appendChild(taskduedate);
+                taskDiv.appendChild(tasknameAndDuedate);
+                taskDiv.appendChild(imgFive);
+                taskDiv.appendChild(imgThree);
+                taskDiv.appendChild(imgFour);
+                containerTaskDiv.appendChild(taskDivCheck);
+                containerTaskDiv.appendChild(taskDiv);
+                taskMainContainer.appendChild(containerTaskDiv);
+
+                containerTaskDiv.addEventListener('click', () => {
+                    currentDataNumber = `${containerTaskDiv.dataset.number}`;
+                    console.log(currentDataNumber);
+                });
+                taskDivCheck.addEventListener('click', complete);
+                btnThree.addEventListener('click', editCurrentTask);
+                imgThree.addEventListener('click', showCurrentTaskDetails);
+                imgFour.addEventListener('click', trash);
+                imgFive.addEventListener('click', getCurrentTask)
+        
+                taskStorage();
+            };  
+        };
+           
+
+        for (let i = 0; i < todoProjectItems.length; i++) {
+            if (taskMainContainer.hasChildNodes()) {
+                taskMainContainer.childNodes[i].setAttribute('style','display: flex;');
+                taskMainContainer.childNodes[i].firstChild.setAttribute('style','margin-bottom: 0; width: 20px; font-size: 1rem; display: flex; align-self: center;');
+            };
+        };
 
         if (taskMainContainer.hasChildNodes()) {
-            let filteredItems = todoProjectItems.filter((object) => {
-                if (object.projectTitle == todoProjects[currentDataNumber].projectTitle) {
-                    return object;
-                }
-            });
-            taskMainContainer.textContent = '';
-            
-            filteredItems.forEach((element) => {
-                function recreateTask(name,date,thePriority) {
-                    let containerTaskDiv = document.createElement('div');
-                    let taskDivCheck = document.createElement('input')
-                    let taskDiv = document.createElement('div');
-                    let tasknameAndDuedate = document.createElement('div');
-                    let taskName = document.createElement('span');
-                    let taskduedate = document.createElement('span');
-                    let imgThree = document.createElement('img');
-                    let imgFour = document.createElement('img');
-                    let imgFive = document.createElement('img');
-                    let recreatedItems = todolist(todoProjects[currentDataNumber].projectTitle,element.projectdescription,element.taskInput,element.taskDuedate,element.projectPriority);
-            
-                    
-                    newTodoProjectItems.push(recreatedItems);
-                    containerTaskDiv.style.cssText = 'display: flex; align-items: center; margin: 0;';
-                    containerTaskDiv.setAttribute('data-number',`${newTodoProjectItems.indexOf(recreatedItems)}`);
-                    taskDivCheck.setAttribute('type','checkbox');
-                    taskDivCheck.style.cssText = 'margin-bottom: 0; width: 20px; font-size: 1rem;';
-                    taskDiv.classList.add('task-div');
-                    taskName.textContent = name;
-                    taskName.setAttribute('data-number',`${newTodoProjectItems.indexOf(recreatedItems)}`);
-                    taskduedate.textContent = date;
-                    taskduedate.setAttribute('data-number',`${newTodoProjectItems.indexOf(recreatedItems)}`);
-                    tasknameAndDuedate.style.cssText = 'flex: 2; display: flex; flex-wrap: wrap; gap: 40%; height: 40px; align-items: center;'
-                    imgFive.src = '../Images/pencil.svg';
-                    imgThree.src = '../Images/arrow-expand.svg';
-                    imgFour.src = '../Images/delete.svg';
-                    console.log(newTodoProjectItems);
-            
-                    if (thePriority == 'Urgent') {
-                        taskDiv.style = ' border-left: 10px solid #dc2626;'
-                    } else if (thePriority == 'Important') {
-                        taskDiv.style = ' border-left: 10px solid #facc15;'
-                    } else {
-                        taskDiv.style = 'border-left: 10px solid #22c55e;'
-                    };
-            
-                    function showCurrentTaskDetails() {
-                        containerTaskDiv.dataset.number = newTodoProjectItems.indexOf(recreatedItems);
-                        paraOne.textContent = `${newTodoProjectItems[containerTaskDiv.dataset.number].taskInput}`;
-                        paraOne.classList.add('para');
-                        paraTwo.textContent = `${newTodoProjectItems[containerTaskDiv.dataset.number].projectdescription}`;
-                        paraTwo.classList.add('para');
-                        paraThree.textContent = `${newTodoProjectItems[containerTaskDiv.dataset.number].taskDuedate}`;
-                        paraThree.classList.add('para');
-                        paraFour.textContent = `${newTodoProjectItems[containerTaskDiv.dataset.number].projectPriority}`;
-                        paraFour.classList.add('para');
-                        imgDiv.classList.add('close-and-edit');
-            
-                    
-                        dialog.textContent = '';
-                        imgDiv.appendChild(imgTwo);
-                        dialog.appendChild(imgDiv);
-                        dialog.appendChild(titleLabel);
-                        dialog.appendChild(paraOne);
-                        dialog.appendChild(descriptionLabel);
-                        dialog.appendChild(paraTwo);
-                        dialog.appendChild(duedateLabel);
-                        dialog.appendChild(paraThree);
-                        dialog.appendChild(priority);
-                        dialog.appendChild(paraFour);
-                        content.appendChild(dialog);
-                        dialog.showModal();
-                    }
-            
-                    function getCurrentTask () {
-                        dialog.textContent = '';
-                        btnThree.textContent = 'Done';
-            
-                        imgDiv.appendChild(imgTwo);
-                        dialog.appendChild(imgDiv);
-                        dialog.appendChild(titleLabel);
-                        dialog.appendChild(taskInput);
-                        dialog.appendChild(descriptionLabel);
-                        dialog.appendChild(descriptionInput);
-                        dialog.appendChild(duedateLabel);
-                        dialog.appendChild(duedateInput);
-                        dialog.appendChild(priority);
-                        dialog.appendChild(prioritySelect);
-                        dialog.appendChild(btnThree);
-                        content.appendChild(dialog);
-                        dialog.showModal();
-                    }
-            
-                    function editCurrentTask() {
-                        containerTaskDiv.dataset.number = newTodoProjectItems.indexOf(recreatedItems);
-                        taskName.setAttribute('data-number',`${newTodoProjectItems.indexOf(recreatedItems)}`);
-                        taskduedate.setAttribute('data-number',`${newTodoProjectItems.indexOf(recreatedItems)}`);
-                        newTodoProjectItems[currentDataNumber].taskInput = `${todo.taskInput.value}`;
-                        newTodoProjectItems[currentDataNumber].taskDuedate = `${todo.taskDuedate.value}`;
-                        newTodoProjectItems[currentDataNumber].projectdescription = `${todo.projectdescription.value}`;
-                        newTodoProjectItems[currentDataNumber].projectPriority = `${todo.projectPriority.value}`;
-            
-                        if (taskName.dataset.number == currentDataNumber &&
-                            taskduedate.dataset.number == currentDataNumber) {
-                                taskName.textContent = `${todo.taskInput.value}`;
-                                taskduedate.textContent = `${todo.taskDuedate.value}`;
-                                
-                                if (todo.projectPriority.value == 'Urgent') {
-                                    taskDiv.style = ' border-left: 10px solid #dc2626;'
-                                } else if (todo.projectPriority.value == 'Important') {
-                                    taskDiv.style = ' border-left: 10px solid #facc15;'
-                                } else {
-                                    taskDiv.style = 'border-left: 10px solid #22c55e;'
-                                }
-                        }
-                        
-                        closed();
-                    }
-            
-                    function complete() {
-                        containerTaskDiv.dataset.number = newTodoProjectItems.indexOf(recreatedItems);
-                        taskDiv.style.cssText = 'border-left: none; color: #c0c0c0;';
-                        imgFive.style = 'pointer-events: none;';
-                        imgThree.style = 'pointer-events: none;';
-                        imgFour.style = 'pointer-events: none;';
-                        setTimeout(() => {
-                            taskMainContainer.removeChild(containerTaskDiv);
-                        }, 2000);
-                        newTodoProjectItems.splice(containerTaskDiv.dataset.number,1);
-                        todoProjectItems.splice(containerTaskDiv.dataset.number,1);
-                        console.log(newTodoProjectItems);
-                    }
-            
-                    function trash() {
-                        containerTaskDiv.dataset.number = newTodoProjectItems.indexOf(recreatedItems);
-                        taskMainContainer.removeChild(containerTaskDiv);
-                        newTodoProjectItems.splice(containerTaskDiv.dataset.number,1);
-                        todoProjectItems.splice(containerTaskDiv.dataset.number,1);
-                    }
-            
-            
-                    tasknameAndDuedate.appendChild(taskName);
-                    tasknameAndDuedate.appendChild(taskduedate);
-                    taskDiv.appendChild(tasknameAndDuedate);
-                    taskDiv.appendChild(imgFive);
-                    taskDiv.appendChild(imgThree);
-                    taskDiv.appendChild(imgFour);
-                    containerTaskDiv.appendChild(taskDivCheck);
-                    containerTaskDiv.appendChild(taskDiv);
-                    taskMainContainer.appendChild(containerTaskDiv);
-            
-                    containerTaskDiv.addEventListener('click', () => {
-                        currentDataNumber = containerTaskDiv.dataset.number;
-                    });
-                    taskDivCheck.addEventListener('click', complete);
-                    btnThree.addEventListener('click', editCurrentTask);
-                    imgThree.addEventListener('click', showCurrentTaskDetails);
-                    imgFour.addEventListener('click', trash);
-                    imgFive.addEventListener('click', getCurrentTask)
+            for (let i = 0; i < todoProjectItems.length; i++) {
+                if (taskMainContainer.childNodes[i].dataset.project !== `${todoProjects[currentDataNumber].projectTitle}`) {
+                    taskMainContainer.childNodes[i].setAttribute('style','display: none;');
                 };
-
-                recreateTask(element.taskInput,element.taskDuedate,element.projectPriority);
-                console.log(filteredItems)
-            });
-            filteredItems = [];
-        }
+            };
+        };
 
         backDiv.appendChild(backImg);
         backDiv.appendChild(backText);
@@ -429,14 +456,16 @@ function display() {
         projectFieldset.appendChild(projectFieldsetText);
         notesFieldset.appendChild(notesLegend);
         notesFieldset.appendChild(notesTextarea);
+        notesFieldset.appendChild(saveBtn);
         content.appendChild(backDiv);
         content.appendChild(projectFieldset);
         content.appendChild(taskMainContainer);
         content.appendChild(newTask);
         content.appendChild(notesFieldset);
+        getTaskDetails();
     };
 
-    function projectMaker() {
+    function projectMaker(boolean) {
         let imgDiv = document.createElement('div');
         let container = document.createElement('div');
         let title = document.createElement('div');
@@ -445,7 +474,9 @@ function display() {
         let imgOne = document.createElement('img');
         let imgThree = document.createElement('img');
 
-        todoProjects.push(project);
+        if (boolean === 'True') {
+            todoProjects.push(project);
+        }
         imgOne.src = '../Images/pencil.svg';
         imgOne.style.cssText = 'display: block; pointer-events: auto;';
         imgThree.src = '../Images/arrow-expand.svg';
@@ -455,7 +486,7 @@ function display() {
         title.setAttribute('data-number',`${todoProjects.indexOf(project)}`);
         title.classList.add('title');
         imgDiv.classList.add('sidebar');
-        container.classList.add('todo-bg')
+        container.classList.add('todo-bg');
         container.setAttribute('data-number',`${todoProjects.indexOf(project)}`);
 
 
@@ -467,7 +498,9 @@ function display() {
         content.removeChild(newProject);
         content.appendChild(container);
         content.appendChild(newProject);
-        console.log(todoProjects);
+
+        projectStorage();
+    
 
          container.addEventListener('click', () => {
             container.setAttribute('data-number',`${todoProjects.indexOf(project)}`);
@@ -478,7 +511,7 @@ function display() {
             },5000);
             imgOne.style.cssText = 'display: block; pointer-events: auto;';
             imgThree.style.cssText = 'display: block; pointer-events: auto;';
-            console.log(currentDataNumber);
+            
         });
         title.addEventListener('click', showTodoListDetails);
         btnFive.addEventListener('click', () => {
@@ -528,7 +561,9 @@ function display() {
             todoProjects[currentDataNumber].projectdescription = `${todo.projectdescription.value}`;
             if (title.dataset.number == currentDataNumber) {
                 title.textContent = `${todo.projectTitle.value}`;
-            }
+            };
+            projectStorage();
+        
             closed();
         };
 
@@ -536,7 +571,8 @@ function display() {
             content.removeChild(container);
             todoProjects.splice(container.dataset.number,1);
             container.setAttribute('data-number',`${todoProjects.indexOf(project)}`);
-            console.log(todoProjects);
+            projectStorage();
+        
         };
     };
 
@@ -591,8 +627,6 @@ function display() {
         dialog.showModal();
     };
 
-
-
     
     function createNewTask(name,date,boolean,thePriority) {
         let containerTaskDiv = document.createElement('div');
@@ -611,6 +645,7 @@ function display() {
         }
         containerTaskDiv.style.cssText = 'display: flex; align-items: center; margin: 0;';
         containerTaskDiv.setAttribute('data-number',`${todoProjectItems.indexOf(todolistItem)}`);
+        containerTaskDiv.setAttribute('data-project',`${todoProjects[currentDataNumber].projectTitle}`);
         taskDivCheck.setAttribute('type','checkbox');
         taskDivCheck.style.cssText = 'margin-bottom: 0; width: 20px; font-size: 1rem;';
         taskDiv.classList.add('task-div');
@@ -622,7 +657,6 @@ function display() {
         imgFive.src = '../Images/pencil.svg';
         imgThree.src = '../Images/arrow-expand.svg';
         imgFour.src = '../Images/delete.svg';
-        console.log(todoProjectItems);
 
         if (thePriority == 'Urgent') {
             taskDiv.style = ' border-left: 10px solid #dc2626;'
@@ -700,9 +734,9 @@ function display() {
                     } else {
                         taskDiv.style = 'border-left: 10px solid #22c55e;'
                     }
-            }
-            
+            };
             closed();
+            taskStorage();
         }
 
         function complete() {
@@ -715,13 +749,16 @@ function display() {
                 taskMainContainer.removeChild(containerTaskDiv);
             }, 2000);
             todoProjectItems.splice(containerTaskDiv.dataset.number,1);
-            console.log(todoProjectItems);
+            taskStorage();
+            preventLag();
         }
 
         function trash() {
             containerTaskDiv.dataset.number = todoProjectItems.indexOf(todolistItem);
             taskMainContainer.removeChild(containerTaskDiv);
             todoProjectItems.splice(containerTaskDiv.dataset.number,1);
+            taskStorage();
+            preventLag();
         }
 
 
@@ -736,13 +773,16 @@ function display() {
         taskMainContainer.appendChild(containerTaskDiv);
 
         containerTaskDiv.addEventListener('click', () => {
-            currentDataNumber = containerTaskDiv.dataset.number;
+            currentDataNumber = `${containerTaskDiv.dataset.number}`;
+            console.log(currentDataNumber);
         });
         taskDivCheck.addEventListener('click', complete);
         btnThree.addEventListener('click', editCurrentTask);
         imgThree.addEventListener('click', showCurrentTaskDetails);
         imgFour.addEventListener('click', trash);
         imgFive.addEventListener('click', getCurrentTask)
+
+        taskStorage();
     };
 
     function getTaskDetails() {
@@ -845,8 +885,8 @@ function display() {
         content.textContent = '';
         content.style.cssText = 'flex-direction: row; flex-wrap: wrap; justify-content: center;';
         headerHOne.textContent = 'Todolist';
-        content.appendChild(defaultProject);
-        for (let i = 1; i < todoProjects.length; i++) {
+        taskStorage();
+        for (let i = 0; i < todoProjects.length; i++) {
             let imgDiv = document.createElement('div');
             let container = document.createElement('div');
             let title = document.createElement('div');
@@ -865,13 +905,19 @@ function display() {
             title.setAttribute('data-number',`${todoProjects.indexOf(duplicateProject)}`);
             title.classList.add('title');
             imgDiv.classList.add('sidebar');
+            if (i === 0) {
+                imgDiv.classList.remove('sidebar');
+                imgDiv.classList.add('first-sidebar');
+            };
             container.classList.add('todo-bg')
             container.setAttribute('data-number',`${todoProjects.indexOf(duplicateProject)}`);
     
     
             imgDiv.appendChild(imgOne);
             imgDiv.appendChild(imgThree);
-            imgDiv.appendChild(imgSix);
+            if (i !== 0) {
+                imgDiv.appendChild(imgSix);
+            }
             container.appendChild(imgDiv);
             container.appendChild(title);
             content.appendChild(container);
@@ -885,7 +931,7 @@ function display() {
                 },5000);
                 imgOne.style.cssText = 'display: block; pointer-events: auto;';
                 imgThree.style.cssText = 'display: block; pointer-events: auto;';
-                console.log(currentDataNumber);
+                
             });
             title.addEventListener('click', showTodoListDetails);
             btnFive.addEventListener('click', () => {
@@ -905,6 +951,7 @@ function display() {
                 let imgOne = document.createElement('img');
                 let imgDiv = document.createElement('div');
         
+                titleLabel.textContent = 'Title';
                 paraOne.textContent = `${todoProjects[container.dataset.number].projectTitle}`;
                 paraOne.classList.add('para');
                 paraTwo.textContent = `${todoProjects[container.dataset.number].projectdescription}`;
@@ -938,6 +985,7 @@ function display() {
                         title.textContent = `${todo.projectTitle.value}`;
                     }
                 }
+                projectStorage();
                 closed();
             };
     
@@ -945,9 +993,163 @@ function display() {
                 container.dataset.number = todoProjects.indexOf(duplicateProject);
                 content.removeChild(container);
                 todoProjects.splice(container.dataset.number,1);
-                console.log(todoProjects);
+                projectStorage();
             }
         };
         content.appendChild(newProject);
     };
+
+    function projectStorage() {
+        localStorage.setItem('projects',JSON.stringify(todoProjects));
+    };
+
+    function taskStorage() {
+        localStorage.setItem('tasks',JSON.stringify(todoProjectItems));
+    };
+
+    function saveNotes() {
+        localStorage.setItem('notes',JSON.stringify(notesTextarea.value));
+        imgDiv.classList.add('close-and-edit');
+        dialog.textContent = '';
+        paraFive.textContent = 'Note saved';
+        paraFive.style.cssText = 'font-size: 2rem; padding: 20px;'
+        imgDiv.appendChild(imgTwo);
+        dialog.appendChild(imgDiv);
+        dialog.appendChild(paraFive);
+        content.appendChild(dialog);
+        dialog.showModal();
+    };
+
+    function preventLag() {
+        if (todoProjectItems.length == 1 && todoProjectItems[currentDataNumber].projectTitle == projectFieldsetText.textContent && todoProjectItems[currentDataNumber].dataset.number == 0) {
+            expand();
+        }
+    }
+
+    function load() {
+        if (localStorage.length >= 1) {
+                todoProjects = JSON.parse(localStorage.getItem('projects'));
+                todoProjectItems = JSON.parse(localStorage.getItem('tasks'));
+                newProject.setAttribute('style','pointer-events: auto;');
+                recreateTask = true;
+                content.removeChild(defaultProject);
+                content.removeChild(newProject);
+                for (let i = 0; i < todoProjects.length; i++) {
+                    let imgDiv = document.createElement('div');
+                    let container = document.createElement('div');
+                    let title = document.createElement('div');
+                    let duplicateProject = todolist(todoProjects[i].projectTitle,todoProjects[i].projectdescription,todoProjects[i].taskInput,todoProjects[i].taskDuedate,todoProjects[i].projectPriority) 
+                    let imgSix = document.createElement('img');
+                    let imgOne = document.createElement('img');
+                    let imgThree = document.createElement('img');
+            
+                    todoProjects.splice(i,1,duplicateProject);
+                    imgOne.src = '../Images/pencil.svg';
+                    imgOne.style.cssText = 'display: block; pointer-events: auto;';
+                    imgThree.src = '../Images/arrow-expand.svg';
+                    imgThree.style.cssText = 'display: block; pointer-events: auto;';
+                    imgSix.src = '../Images/delete.svg';
+                    title.textContent = `${todoProjects[i].projectTitle}`;
+                    title.setAttribute('data-number',`${todoProjects.indexOf(duplicateProject)}`);
+                    title.classList.add('title');
+                    imgDiv.classList.add('sidebar');
+                    if (i === 0) {
+                        imgDiv.classList.remove('sidebar');
+                        imgDiv.classList.add('first-sidebar');
+                    };
+                    container.classList.add('todo-bg')
+                    container.setAttribute('data-number',`${todoProjects.indexOf(duplicateProject)}`);
+            
+            
+                    imgDiv.appendChild(imgOne);
+                    imgDiv.appendChild(imgThree);
+                    if (i !== 0) {
+                        imgDiv.appendChild(imgSix);
+                    }
+                    container.appendChild(imgDiv);
+                    container.appendChild(title);
+                    content.appendChild(container);
+        
+                    container.addEventListener('click', () => {
+                        container.setAttribute('data-number',`${todoProjects.indexOf(duplicateProject)}`);
+                        currentDataNumber = container.dataset.number;
+                        imgDiv.setAttribute('style','display: flex;');
+                        setTimeout(() => {
+                            imgDiv.setAttribute('style','display: none;');
+                        },5000);
+                        imgOne.style.cssText = 'display: block; pointer-events: auto;';
+                        imgThree.style.cssText = 'display: block; pointer-events: auto;';
+                        
+                    });
+                    title.addEventListener('click', showTodoListDetails);
+                    btnFive.addEventListener('click', () => {
+                        closed();
+                        editProject();
+                    });
+                    imgOne.addEventListener('click', () => {
+                        closed();
+                        getProject();
+                    });
+                    imgThree.addEventListener('click', expand);
+                    imgSix.addEventListener('click', newProjectTrash);
+                    
+                    
+                    function showTodoListDetails() {
+                        container.dataset.number = todoProjects.indexOf(duplicateProject);
+                        let imgOne = document.createElement('img');
+                        let imgDiv = document.createElement('div');
+                
+                        paraOne.textContent = `${todoProjects[container.dataset.number].projectTitle}`;
+                        paraOne.classList.add('para');
+                        paraTwo.textContent = `${todoProjects[container.dataset.number].projectdescription}`;
+                        paraTwo.classList.add('para');
+                        imgOne.src = '../Images/pencil.svg';
+                        imgOne.style.cssText = 'display: block; pointer-events: auto;';
+                        imgDiv.classList.add('close-and-edit');
+            
+                        imgOne.addEventListener('click', () => {
+                            closed();
+                            getProject();
+                        });
+                
+                        dialog.textContent = '';
+                        imgDiv.appendChild(imgOne);
+                        imgDiv.appendChild(imgTwo);
+                        dialog.appendChild(imgDiv);
+                        dialog.appendChild(titleLabel);
+                        dialog.appendChild(paraOne);
+                        dialog.appendChild(descriptionLabel);
+                        dialog.appendChild(paraTwo);
+                        content.appendChild(dialog);
+                        dialog.showModal();
+                    };
+            
+                    function editProject() {
+                        if (container.dataset.number == currentDataNumber) {
+                            todoProjects[currentDataNumber].projectTitle = `${todo.projectTitle.value}`;
+                            todoProjects[currentDataNumber].projectdescription = `${todo.projectdescription.value}`;
+                            if (title.dataset.number == currentDataNumber) {
+                                title.textContent = `${todo.projectTitle.value}`;
+                            }
+                        }
+                        projectStorage();
+                    
+                        closed();
+                    };
+            
+                     function newProjectTrash() {
+                        container.dataset.number = todoProjects.indexOf(duplicateProject);
+                        content.removeChild(container);
+                        todoProjects.splice(container.dataset.number,1);
+                        projectStorage();
+                    
+                    }
+        
+                
+                };
+                content.appendChild(newProject);
+                getTodoProjectDetails();
+        };
+    };
+    load();
 };

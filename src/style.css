@@ -49,7 +49,7 @@ header h1{
     background-position: center;
     background-repeat: no-repeat;
 }
-#svg-div,.sidebar{
+#svg-div,.sidebar,.first-sidebar{
     display: none;
     flex-direction: column;
     align-items: flex-end;
@@ -160,6 +160,18 @@ input:focus{
 textarea:focus{
     border: 2px solid #000000;
     outline: #000000;
+}
+.save-btn{
+    margin: 5px auto 5px auto;
+    padding: 10px 30px 10px 30px;
+    color: #0000ff;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    font-size: 1.1rem;
+}
+.save-btn:active{
+    color: #ffffff;
+    background: none;
 }
 dialog{
     margin: auto;
