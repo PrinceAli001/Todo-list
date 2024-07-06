@@ -1,5 +1,10 @@
 import './style.css';
 import todolist from './todolist';
+import ArrowExpand from '../Images/arrow-expand.svg';
+import ArrowLeft from '../Images/arrow-left-circle.svg';
+import Close from '../Images/close-thick.svg';
+import Delete from '../Images/delete.svg';
+import Edit from '../Images/pencil.svg';
 
 display();
 
@@ -123,22 +128,22 @@ function display() {
             let imgDiv = document.createElement('div');
 
             dialog.textContent = '';
-            imgOne.src = '../Images/pencil.svg';
+            imgOne.src = Edit;
             imgOne.style = 'display: none; pointer-events: none;'
-            imgTwo.src = '../Images/close-thick.svg';
+            imgTwo.src = Close;
             imgDiv.classList.add('close-and-edit');
             titleLabel.textContent = 'Title';
             titleLabel.setAttribute('for','title');
-            titleLabel.style.cssText = 'font-family: Caveat; font-size: 3rem;';
+            titleLabel.style.cssText = 'font-family: Caveat; font-size: 2rem;';
             titleInput.setAttribute('placeholder','Title..(Min text:3 , Max:20)');
             titleInput.setAttribute('type','text');
             titleInput.setAttribute('name','title');
             titleInput.setAttribute('id','title');
             descriptionLabel.textContent = 'Description';
             descriptionLabel.setAttribute('for','description');
-            descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 3rem;';
+            descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 2rem;';
             descriptionInput.setAttribute('rows','5');
-            descriptionInput.setAttribute('cols','19');
+            descriptionInput.setAttribute('cols','16');
             descriptionInput.setAttribute('placeholder','Anything you want to say.....(Text should be more than 3)');
             descriptionInput.setAttribute('name','description');
             descriptionInput.setAttribute('id','description');
@@ -251,7 +256,7 @@ function display() {
         secondSpan.textContent = 'to do';
         content.textContent = '';
         content.style.cssText = 'flex-direction: column; flex-wrap: no-wrap; justify-content: normal; padding-top: 5px;';
-        backImg.src = '../Images/arrow-left-circle.svg';
+        backImg.src = ArrowLeft;
         backText.textContent = 'Back';
         backDiv.classList.add('back-div');
         backDiv.classList.add('todo-bg');
@@ -269,9 +274,9 @@ function display() {
         newTask.style.cssText = 'margin: 20px auto 0 auto; font-size: .9rem; height: 50px;';
         notesFieldset.style = 'width: 50%;';
         notesLegend.textContent = 'Notes';
-        notesLegend.style.cssText = 'font-family: Caveat; font-size: 2.4rem;';
+        notesLegend.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
         notesTextarea.setAttribute('placeholder',`Make a note if you don't want to forget`);
-        notesTextarea.setAttribute('cols','19');
+        notesTextarea.setAttribute('cols','16');
         notesTextarea.setAttribute('rows','5');
         notesTextarea.style = 'width: 100%; min-width: 270px;';
         saveBtn.textContent = 'Save'
@@ -309,9 +314,9 @@ function display() {
                 taskduedate.textContent =todoProjectItems[i].taskDuedate;
                 taskduedate.setAttribute('data-number',`${todoProjectItems.indexOf(duplicateItem)}`);
                 tasknameAndDuedate.style.cssText = 'flex: 2; display: flex; flex-wrap: wrap; gap: 40%; height: 40px; align-items: center;'
-                imgFive.src = '../Images/pencil.svg';
-                imgThree.src = '../Images/arrow-expand.svg';
-                imgFour.src = '../Images/delete.svg';
+                imgFive.src = Edit;
+                imgThree.src = ArrowExpand;
+                imgFour.src = Delete;
         
                 if (todoProjectItems[i].projectPriority == 'Urgent') {
                     taskDiv.style = ' border-left: 10px solid #dc2626;'
@@ -482,11 +487,11 @@ function display() {
         if (boolean === 'True') {
             todoProjects.push(project);
         }
-        imgOne.src = '../Images/pencil.svg';
+        imgOne.src = Edit;
         imgOne.style.cssText = 'display: block; pointer-events: auto;';
-        imgThree.src = '../Images/arrow-expand.svg';
+        imgThree.src = ArrowExpand;
         imgThree.style.cssText = 'display: block; pointer-events: auto;';
-        imgSix.src = '../Images/delete.svg';
+        imgSix.src = Delete;
         title.textContent = `${todo.projectTitle.value}`;
         title.setAttribute('data-number',`${todoProjects.indexOf(project)}`);
         title.classList.add('title');
@@ -540,7 +545,7 @@ function display() {
             paraOne.classList.add('para');
             paraTwo.textContent = `${todoProjects[container.dataset.number].projectdescription}`;
             paraTwo.classList.add('para');
-            imgOne.src = '../Images/pencil.svg';
+            imgOne.src = Edit;
             imgOne.style.cssText = 'display: block; pointer-events: auto;';
             imgDiv.classList.add('close-and-edit');
 
@@ -585,22 +590,22 @@ function display() {
         let imgDiv = document.createElement('div');
 
         dialog.textContent = '';
-        imgOne.src = '../Images/pencil.svg';
+        imgOne.src = Edit;
         imgOne.style = 'display: none; pointer-events: none;'
-        imgTwo.src = '../Images/close-thick.svg';
+        imgTwo.src = Close;
         imgDiv.classList.add('close-and-edit');
         titleLabel.textContent = 'Title';
         titleLabel.setAttribute('for','title');
-        titleLabel.style.cssText = 'font-family: Caveat; font-size: 3rem;';
+        titleLabel.style.cssText = 'font-family: Caveat; font-size: 2rem;';
         titleInput.setAttribute('placeholder','Title..(Min text:3 , Max:20)');
         titleInput.setAttribute('type','text');
         titleInput.setAttribute('name','title');
         titleInput.setAttribute('id','title');
         descriptionLabel.textContent = 'Description';
         descriptionLabel.setAttribute('for','description');
-        descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 3rem;';
+        descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 2rem;';
         descriptionInput.setAttribute('rows','5');
-        descriptionInput.setAttribute('cols','19');
+        descriptionInput.setAttribute('cols','16');
         descriptionInput.setAttribute('placeholder','Anything you want to say.....(Text should be more than 3)');
         descriptionInput.setAttribute('name','description');
         descriptionInput.setAttribute('id','description');
@@ -663,9 +668,9 @@ function display() {
         taskduedate.textContent = date;
         taskduedate.setAttribute('data-number',`${todoProjectItems.indexOf(todolistItem)}`);
         tasknameAndDuedate.style.cssText = 'flex: 2; display: flex; flex-wrap: wrap; gap: 40%; height: 40px; align-items: center;'
-        imgFive.src = '../Images/pencil.svg';
-        imgThree.src = '../Images/arrow-expand.svg';
-        imgFour.src = '../Images/delete.svg';
+        imgFive.src = Edit;
+        imgThree.src = ArrowExpand;
+        imgFour.src = Delete;
 
         if (thePriority == 'Urgent') {
             taskDiv.style = ' border-left: 10px solid #dc2626;'
@@ -794,34 +799,34 @@ function display() {
     };
 
     function getTaskDetails() {
-        imgFive.src = '../Images/pencil.svg';
+        imgFive.src = Edit;
         imgFive.style = 'display: none; pointer-events: none;'
-        imgTwo.src = '../Images/close-thick.svg';
+        imgTwo.src = Close;
         imgDiv.classList.add('close-and-edit');
         titleLabel.textContent = 'TaskName';
         titleLabel.setAttribute('for','task');
-        titleLabel.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
+        titleLabel.style.cssText = 'font-family: Caveat; font-size: 2rem;';
         taskInput.setAttribute('placeholder','Task..(Min text:3 , Max:20)');
         taskInput.setAttribute('type','text');
         taskInput.setAttribute('name','task');
         taskInput.setAttribute('id','task');
         descriptionLabel.textContent = 'Description';
         descriptionLabel.setAttribute('for','description');
-        descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
+        descriptionLabel.style.cssText = 'font-family: Caveat; font-size: 2rem;';
         descriptionInput.setAttribute('rows','5');
-        descriptionInput.setAttribute('cols','19');
+        descriptionInput.setAttribute('cols','16');
         descriptionInput.setAttribute('placeholder','Anything you want to say.....(Text should be more than 3)');
         descriptionInput.setAttribute('name','description');
         descriptionInput.setAttribute('id','description');
         duedateLabel.textContent = 'Due-date';
         duedateLabel.setAttribute('for','date');
-        duedateLabel.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
+        duedateLabel.style.cssText = 'font-family: Caveat; font-size: 2rem;';
         duedateInput.setAttribute('type','date');
         duedateInput.setAttribute('name','date');
         duedateInput.setAttribute('id','date');
         priority.textContent = 'Priority';
         priority.setAttribute('for','priority');
-        priority.style.cssText = 'font-family: Caveat; font-size: 2.3rem;';
+        priority.style.cssText = 'font-family: Caveat; font-size: 2rem;';
         prioritySelect.setAttribute('name','priority');
         prioritySelect.setAttribute('id','priority');
         urgentOption.textContent = 'Urgent';
@@ -876,7 +881,7 @@ function display() {
         content.textContent = '';
         content.style.cssText = 'flex-direction: row; flex-wrap: wrap; justify-content: center;';
         firstSpan.textContent = 'Todo';
-        secondSpan.textContent = 'list';
+        secondSpan.textContent = 'List';
         for (let i = 0; i < todoProjects.length; i++) {
             let imgDiv = document.createElement('div');
             let container = document.createElement('div');
@@ -887,11 +892,11 @@ function display() {
             let imgThree = document.createElement('img');
     
             todoProjects.splice(i,1,duplicateProject);
-            imgOne.src = '../Images/pencil.svg';
+            imgOne.src = Edit;
             imgOne.style.cssText = 'display: block; pointer-events: auto;';
-            imgThree.src = '../Images/arrow-expand.svg';
+            imgThree.src = ArrowExpand;
             imgThree.style.cssText = 'display: block; pointer-events: auto;';
-            imgSix.src = '../Images/delete.svg';
+            imgSix.src = Delete;
             title.textContent = `${todoProjects[i].projectTitle}`;
             title.setAttribute('data-number',`${todoProjects.indexOf(duplicateProject)}`);
             title.classList.add('title');
@@ -947,7 +952,7 @@ function display() {
                 paraOne.classList.add('para');
                 paraTwo.textContent = `${todoProjects[container.dataset.number].projectdescription}`;
                 paraTwo.classList.add('para');
-                imgOne.src = '../Images/pencil.svg';
+                imgOne.src = Edit;
                 imgOne.style.cssText = 'display: block; pointer-events: auto;';
                 imgDiv.classList.add('close-and-edit');
     
@@ -1035,11 +1040,11 @@ function display() {
                     let imgThree = document.createElement('img');
             
                     todoProjects.splice(i,1,duplicateProject);
-                    imgOne.src = '../Images/pencil.svg';
+                    imgOne.src = Edit;
                     imgOne.style.cssText = 'display: block; pointer-events: auto;';
-                    imgThree.src = '../Images/arrow-expand.svg';
+                    imgThree.src = ArrowExpand;
                     imgThree.style.cssText = 'display: block; pointer-events: auto;';
-                    imgSix.src = '../Images/delete.svg';
+                    imgSix.src = Delete;
                     title.textContent = `${todoProjects[i].projectTitle}`;
                     title.setAttribute('data-number',`${todoProjects.indexOf(duplicateProject)}`);
                     title.classList.add('title');
@@ -1094,7 +1099,7 @@ function display() {
                         paraOne.classList.add('para');
                         paraTwo.textContent = `${todoProjects[container.dataset.number].projectdescription}`;
                         paraTwo.classList.add('para');
-                        imgOne.src = '../Images/pencil.svg';
+                        imgOne.src = Edit;
                         imgOne.style.cssText = 'display: block; pointer-events: auto;';
                         imgDiv.classList.add('close-and-edit');
             
