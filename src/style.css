@@ -45,6 +45,12 @@ header #second-span{
     font-family: Dancing-Script;
     color: #22c55e;
 }
+#default-imgOne{
+    src: url(../Images/pencil.svg);
+}
+#default-imgTwo{
+    src: url(../Images/arrow-expand.svg);
+}
 #content{
     padding: 20px;
     display: flex;
