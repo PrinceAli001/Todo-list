@@ -11,6 +11,7 @@ display();
 
 
 function display() {
+    let checkImg = document.createElement('img');
     let firstSpan = document.querySelector('#first-span');
     let secondSpan = document.querySelector('#second-span');
     let headerImg = document.querySelector('#header-img');
@@ -19,8 +20,8 @@ function display() {
     let defaultProject = document.querySelector('#default-project');
     let defaultTitle = document.querySelector('#default-title');
     let svgDiv = document.querySelector('#svg-div');
-    let defaultImgOne = document.querySelector('#default-imgOne');
-    let defaultImgTwo = document.querySelector('#default-imgTwo');
+    let defaultImgOne = document.createElement('img');
+    let defaultImgTwo = document.createElement('img');
     let dialog = document.createElement('dialog');
     let imgDiv = document.createElement('div');
     const imgOne = document.createElement('img');
