@@ -11,10 +11,10 @@ display();
 
 
 function display() {
+    let header = document.querySelector('header');
     let checkImg = document.createElement('img');
     let firstSpan = document.querySelector('#first-span');
     let secondSpan = document.querySelector('#second-span');
-    let headerImg = document.querySelector('#header-img');
     let content = document.querySelector('#content');
     let newProject = document.querySelector('#new-project');
     let defaultProject = document.querySelector('#default-project');
@@ -68,10 +68,19 @@ function display() {
     let todoProjects = [];
     let todoProjectItems = [];
     let todo = todolist(titleInput,descriptionInput,taskInput,duedateInput,prioritySelect);
-    headerImg.src = Check;
+    checkImg.src = Check;
+    checkImg.alt = 'checkbox';
     defaultProject.setAttribute('data-number','0');
     defaultImgOne.src = Edit;
+    defaultImgOne.alt = 'Edit';
     defaultImgTwo.src = ArrowExpand;
+    defaultImgTwo.alt = 'Expand';
+    header.textContent = '';
+    header.appendChild(checkImg);
+    header.appendChild(firstSpan);
+    header.appendChild(secondSpan);
+    svgDiv.appendChild(defaultImgOne);
+    svgDiv.appendChild(defaultImgTwo);
     newProject.setAttribute('style','pointer-events: none;');
 
 
