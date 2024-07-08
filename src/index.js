@@ -1,6 +1,5 @@
 import './style.css';
 import todolist from './todolist';
-import Check from '../Images/check.gif';
 import ArrowExpand from '../Images/arrow-expand.svg';
 import ArrowLeft from '../Images/arrow-left-circle.svg';
 import Close from '../Images/close-thick.svg';
@@ -11,8 +10,6 @@ display();
 
 
 function display() {
-    let header = document.querySelector('header');
-    let checkImg = document.createElement('img');
     let firstSpan = document.querySelector('#first-span');
     let secondSpan = document.querySelector('#second-span');
     let content = document.querySelector('#content');
@@ -26,6 +23,8 @@ function display() {
     let imgDiv = document.createElement('div');
     const imgOne = document.createElement('img');
     const imgTwo = document.createElement('img');
+    const imgThree = document.createElement('img');
+    const imgSeven = document.createElement('img');
     let imgFive = document.createElement('img');
     let titleLabel = document.createElement('label');
     let titleInput = document.createElement('input');
@@ -68,19 +67,11 @@ function display() {
     let todoProjects = [];
     let todoProjectItems = [];
     let todo = todolist(titleInput,descriptionInput,taskInput,duedateInput,prioritySelect);
-    checkImg.src = Check;
-    checkImg.alt = 'checkbox';
     defaultProject.setAttribute('data-number','0');
-    defaultImgOne.src = Edit;
-    defaultImgOne.alt = 'Edit';
-    defaultImgTwo.src = ArrowExpand;
-    defaultImgTwo.alt = 'Expand';
-    header.textContent = '';
-    header.appendChild(checkImg);
-    header.appendChild(firstSpan);
-    header.appendChild(secondSpan);
-    svgDiv.appendChild(defaultImgOne);
-    svgDiv.appendChild(defaultImgTwo);
+    imgSeven.src = Edit;
+    imgThree.src = ArrowExpand;
+    svgDiv.appendChild(imgSeven);
+    svgDiv.appendChild(imgThree);
     newProject.setAttribute('style','pointer-events: none;');
 
 
@@ -98,14 +89,14 @@ function display() {
             showDefaultTodoListDetails();
         };
     });
-    defaultImgOne.addEventListener('click', () => {
+    imgSeven.addEventListener('click', () => {
         if (defaultTitle.textContent == 'Title') {
             getDefaultTodoProjectDetails();
         }else {
             getDefaultProject();
         };
     });
-    defaultImgTwo.addEventListener('click', () => {
+    imgThree.addEventListener('click', () => {
         if (defaultTitle.textContent == 'Title') {
             defaultImgTwo.setAttribute('style','pointer-events: none;');
         }else {
