@@ -76,8 +76,8 @@ function display() {
     header.appendChild(checkImg);
     header.appendChild(firstSpan);
     header.appendChild(secondSpan);
-    svgDiv.appendChild(imgSeven);
-    svgDiv.appendChild(imgThree);
+    svgDiv.appendChild(defaultImgOne);
+    svgDiv.appendChild(defaultImgTwo);
     newProject.setAttribute('style','pointer-events: none;');
 
 

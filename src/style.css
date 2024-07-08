@@ -24,12 +24,14 @@ img{
     height: 30px;
 }
 header{
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-#header-img{
+header img{
     width: 60px;
     height: 60px;
-    margin-top: 20px;
+    text-align: center;
 }
 header #first-span{
     text-align: center;
