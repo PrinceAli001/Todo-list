@@ -1,4 +1,5 @@
 import './style.css';
+import Check from '../Images/check.gif';
 import todolist from './todolist';
 import ArrowExpand from '../Images/arrow-expand.svg';
 import ArrowLeft from '../Images/arrow-left-circle.svg';
@@ -10,6 +11,8 @@ display();
 
 
 function display() {
+    let header = document.querySelector('header');
+    let checkImg = document.createElement('img');
     let firstSpan = document.querySelector('#first-span');
     let secondSpan = document.querySelector('#second-span');
     let content = document.querySelector('#content');
@@ -23,8 +26,6 @@ function display() {
     let imgDiv = document.createElement('div');
     const imgOne = document.createElement('img');
     const imgTwo = document.createElement('img');
-    const imgThree = document.createElement('img');
-    const imgSeven = document.createElement('img');
     let imgFive = document.createElement('img');
     let titleLabel = document.createElement('label');
     let titleInput = document.createElement('input');
@@ -68,8 +69,13 @@ function display() {
     let todoProjectItems = [];
     let todo = todolist(titleInput,descriptionInput,taskInput,duedateInput,prioritySelect);
     defaultProject.setAttribute('data-number','0');
-    imgSeven.src = Edit;
-    imgThree.src = ArrowExpand;
+    checkImg.src = Check;
+    defaultImgOne.src = Edit;
+    defaultImgTwo.src = ArrowExpand;
+    header.textContent = '';
+    header.appendChild(checkImg);
+    header.appendChild(firstSpan);
+    header.appendChild(secondSpan);
     svgDiv.appendChild(imgSeven);
     svgDiv.appendChild(imgThree);
     newProject.setAttribute('style','pointer-events: none;');
@@ -89,14 +95,14 @@ function display() {
             showDefaultTodoListDetails();
         };
     });
-    imgSeven.addEventListener('click', () => {
+    defaultImgOne.addEventListener('click', () => {
         if (defaultTitle.textContent == 'Title') {
             getDefaultTodoProjectDetails();
         }else {
             getDefaultProject();
         };
     });
-    imgThree.addEventListener('click', () => {
+    defaultImgTwo.addEventListener('click', () => {
         if (defaultTitle.textContent == 'Title') {
             defaultImgTwo.setAttribute('style','pointer-events: none;');
         }else {
